@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
 import { Banner } from '../models/banner.model';
 import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../api.service.spec';
@@ -14,6 +14,8 @@ export class BannerListComponent implements OnInit {
   pageSize: number = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
   totalItems = 0;
+
+  @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;
   constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
@@ -39,5 +41,16 @@ export class BannerListComponent implements OnInit {
         this.calculatePageSize();
         console.log(this.banners);
       });
+
+    this.scrollUp();
+  }
+
+  scrollUp(): void {
+    setTimeout(() =>
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth', // Add smooth scrolling behavior
+      })
+    );
   }
 }
