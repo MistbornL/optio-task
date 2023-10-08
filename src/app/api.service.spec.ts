@@ -13,13 +13,21 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  findBanners(pageIndex: number, pageSize: number): Observable<any> {
+  findBanners(
+    pageIndex: number,
+    pageSize: number,
+    search: string
+  ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.authToken}`,
     });
 
-    const payload = { search: '', pageSize: pageSize, pageIndex: pageIndex };
+    const payload = {
+      search: search,
+      pageSize: pageSize,
+      pageIndex: pageIndex,
+    };
     return this.http.post(`${this.apiUrl}/find`, payload, { headers });
   }
 }

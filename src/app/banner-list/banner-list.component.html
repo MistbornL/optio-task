@@ -1,36 +1,55 @@
 <!-- src/app/banner-list/banner-list.component.html -->
 
-<div class="p-4" *ngFor="let banner of banners.entities">
-  <mat-card
-    class="max-w-md w-full rounded overflow-hidden shadow-lg mx-auto mb-4"
-  >
-    <img
-      src="{{ banner.url }}"
-      alt="{{ banner.name }}"
-      class="w-full h-auto rounded-md"
-    />
-    <div class="p-4">
-      <h2 class="font-bold text-xl">{{ banner.name }}</h2>
-      <p class="text-sm text-gray-600">
-        Status: {{ banner.active ? "Active" : "Inactive" }}
-      </p>
-      <p class="text-sm text-gray-600">Zone: {{ banner.zoneId }}</p>
-      <p class="text-sm text-gray-600">
-        Start Date: {{ banner.startDate | date }}
-      </p>
-      <p class="text-sm text-gray-600">End Date: {{ banner.endDate | date }}</p>
-      <p class="text-sm text-gray-600">
-        Labels: {{ banner.labels.join(", ") }}
-      </p>
-    </div>
-  </mat-card>
-</div>
+<div class="App">
+  <h1 class="text-center text-black text-3xl mb-4 font-bold">Banners Page</h1>
 
-<div class="pagination-container">
-  <mat-paginator
-    [length]="banners.total"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="pageSizeOptions"
-    (page)="fetchBanners($event)"
-  />
+  <!-- Filter Input -->
+  <div class="text-center mb-4">
+    <mat-form-field>
+      <input
+        matInput
+        [(ngModel)]="filterText"
+        (input)="applyFilter()"
+        placeholder="Filter by Name"
+      />
+    </mat-form-field>
+  </div>
+
+  <!-- Render Banners -->
+  <div class="p-4" *ngFor="let banner of banners.entities">
+    <mat-card
+      class="max-w-md w-full rounded overflow-hidden shadow-lg mx-auto mb-4"
+    >
+      <img
+        src="{{ banner.url }}"
+        alt="{{ banner.name }}"
+        class="w-full h-auto rounded-md"
+      />
+      <div class="p-4">
+        <h2 class="font-bold text-xl">{{ banner.name }}</h2>
+        <p class="text-sm text-gray-600">
+          Status: {{ banner.active ? "Active" : "Inactive" }}
+        </p>
+        <p class="text-sm text-gray-600">Zone: {{ banner.zoneId }}</p>
+        <p class="text-sm text-gray-600">
+          Start Date: {{ banner.startDate | date }}
+        </p>
+        <p class="text-sm text-gray-600">
+          End Date: {{ banner.endDate | date }}
+        </p>
+        <p class="text-sm text-gray-600">
+          Labels: {{ banner.labels.join(", ") }}
+        </p>
+      </div>
+    </mat-card>
+  </div>
+
+  <div class="pagination-container">
+    <mat-paginator
+      [length]="banners.total"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="fetchBanners($event)"
+    />
+  </div>
 </div>

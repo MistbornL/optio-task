@@ -1,6 +1,5 @@
 import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
 import { Banner } from '../models/banner.model';
-import { HttpClient } from '@angular/common/http';
 import { ApiService } from '../api.service.spec';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -14,6 +13,7 @@ export class BannerListComponent implements OnInit {
   pageSize: number = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
   totalItems = 0;
+  filterText: string = '';
 
   @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;
   constructor(private apiService: ApiService) {}
@@ -32,17 +32,20 @@ export class BannerListComponent implements OnInit {
     const pageIndex = pageEvent ? pageEvent.pageIndex : -1;
     // Call the findBanners method from the ApiService
     this.apiService
-      .findBanners(pageIndex + 1, this.pageSize)
+      .findBanners(pageIndex + 1, this.pageSize, this.filterText)
       .subscribe((data) => {
         // Handle the API response and update this.banners as needed
         this.banners = data.data;
         this.totalItems = data.data.total;
 
         this.calculatePageSize();
-        console.log(this.banners);
       });
 
     this.scrollUp();
+  }
+
+  applyFilter() {
+    this.fetchBanners();
   }
 
   scrollUp(): void {
