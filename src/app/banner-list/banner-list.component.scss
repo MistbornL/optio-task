@@ -1,0 +1,54 @@
+.example-card {
+  max-width: 400px;
+}
+
+.mdc-card {
+  background: ghostwhite;
+}
+
+.example-header-image {
+  background-size: cover;
+}
+
+.mat-mdc-paginator-container {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-paginator {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  padding: 10px;
+
+  /* Style for the pagination controls (buttons, input) */
+  .mat-paginator-range-label,
+  .mat-select-value,
+  .mat-paginator-navigation,
+  .mat-paginator-page-size {
+    font-size: 14px;
+    color: #333;
+  }
+
+  /* Style for the active page */
+  .mat-paginator-page-size.mat-paginator-page-size-label.ng-star-inserted.mat-paginator-page-size-active {
+    background-color: #007acc;
+    color: #fff;
+  }
+}
+
+/* Style for the pagination buttons */
+.mat-paginator-range-actions .mat-icon-button {
+  color: #007acc;
+}
+
+/* Style for the select input */
+.mat-select {
+  background-color: #fff;
+  border-radius: 4px;
+}
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
