@@ -1,15 +1,27 @@
 <!-- src/app/banner-list/banner-list.component.html -->
 
-<div class="App">
+<div class="App max-w-3xl mx-auto">
   <h1 class="text-center text-black text-3xl mb-4 font-bold">Banners Page</h1>
 
+  <div class="">
+    <ul class="flex justify-center gap-5">
+      <li
+        class="cursor-pointer bg-slate-800 text-white px-4 rounded-md"
+        *ngFor="let item of sortItemsArray"
+        (click)="clickHandle(item.accessor)"
+      >
+        <a href="{{ item.accessor }}">{{ item.text }}</a>
+      </li>
+    </ul>
+  </div>
+
   <!-- Filter Input -->
-  <div class="text-center mb-4">
+  <div class="mt-10 text-end">
     <mat-form-field>
       <input
         matInput
         [(ngModel)]="filterText"
-        (input)="applyFilter()"
+        (input)="fetchBanners()"
         placeholder="Filter by Name"
       />
     </mat-form-field>

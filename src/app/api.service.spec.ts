@@ -16,7 +16,8 @@ export class ApiService {
   findBanners(
     pageIndex: number,
     pageSize: number,
-    search: string
+    search: string,
+    sortBy: string
   ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -27,6 +28,7 @@ export class ApiService {
       search: search,
       pageSize: pageSize,
       pageIndex: pageIndex,
+      sortBy: sortBy,
     };
     return this.http.post(`${this.apiUrl}/find`, payload, { headers });
   }

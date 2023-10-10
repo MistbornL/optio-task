@@ -2,6 +2,7 @@ import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
 import { Banner } from '../models/banner.model';
 import { ApiService } from '../api.service.spec';
 import { PageEvent } from '@angular/material/paginator';
+import { sortItems } from '../cconst';
 
 @Component({
   selector: 'app-banner-list',
@@ -12,8 +13,10 @@ export class BannerListComponent implements OnInit {
   banners: Banner = { total: 0, entities: [] };
   pageSize: number = 10;
   pageSizeOptions: number[] = [5, 10, 20, 50];
-  totalItems = 0;
+  totalItems: number = 0;
+  sortBy: string = '';
   filterText: string = '';
+  sortItemsArray = sortItems;
 
   @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;
   constructor(private apiService: ApiService) {}
@@ -24,15 +27,14 @@ export class BannerListComponent implements OnInit {
   }
 
   calculatePageSize() {
-    // Calculate the pageSize based on total items and your desired maximum items per page
-    this.pageSize = Math.min(10, this.totalItems); // Adjust the 10 as needed
+    this.pageSize = Math.min(10, this.totalItems);
   }
 
   fetchBanners(pageEvent?: PageEvent) {
     const pageIndex = pageEvent ? pageEvent.pageIndex : -1;
     // Call the findBanners method from the ApiService
     this.apiService
-      .findBanners(pageIndex + 1, this.pageSize, this.filterText)
+      .findBanners(pageIndex + 1, this.pageSize, this.filterText, this.sortBy)
       .subscribe((data) => {
         // Handle the API response and update this.banners as needed
         this.banners = data.data;
@@ -44,10 +46,6 @@ export class BannerListComponent implements OnInit {
     this.scrollUp();
   }
 
-  applyFilter() {
-    this.fetchBanners();
-  }
-
   scrollUp(): void {
     setTimeout(() =>
       window.scrollTo({
@@ -55,5 +53,10 @@ export class BannerListComponent implements OnInit {
         behavior: 'smooth', // Add smooth scrolling behavior
       })
     );
+  }
+
+  clickHandle(accessor: string): void {
+    this.sortBy = accessor;
+    this.fetchBanners();
   }
 }
