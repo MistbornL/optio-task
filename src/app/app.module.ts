@@ -12,9 +12,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
-
+import { BannerEditComponent } from './banner-edit/banner-edit.component';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
-  declarations: [AppComponent, BannerListComponent],
+  declarations: [AppComponent, BannerListComponent, BannerEditComponent],
   imports: [
     MatButtonModule,
     MatCardModule,
@@ -24,6 +25,7 @@ import { EffectsModule } from '@ngrx/effects';
     AppRoutingModule,
     HttpClientModule,
     MatPaginatorModule,
+    ReactiveFormsModule,
     StoreModule.forRoot({}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     EffectsModule.forRoot([]),

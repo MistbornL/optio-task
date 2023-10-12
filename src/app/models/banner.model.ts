@@ -1,5 +1,4 @@
-interface Entities {
-  id: string;
+export interface Entities {
   name: string;
   channelId: string;
   language: string;

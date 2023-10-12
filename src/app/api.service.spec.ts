@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = `${environment.apiUrl}/api/v2/banners`;
+  private apiUrl = `${environment.apiUrl}/api/v2`;
   private authToken = environment.authToken;
 
   constructor(private http: HttpClient) {}
@@ -30,6 +30,36 @@ export class ApiService {
       pageIndex: pageIndex,
       sortBy: sortBy,
     };
-    return this.http.post(`${this.apiUrl}/find`, payload, { headers });
+    return this.http.post(`${this.apiUrl}/banners/find`, payload, {
+      headers,
+    });
+  }
+
+  findOptions(typeId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.authToken}`,
+    });
+
+    const payload = {
+      typeId: typeId,
+    };
+    return this.http.post(`${this.apiUrl}/reference-data/find`, payload, {
+      headers,
+    });
+  }
+
+  removeOptions(typeId: number): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.authToken}`,
+    });
+
+    const payload = {
+      typeId: typeId,
+    };
+    return this.http.post(`${this.apiUrl}/reference-data/find`, payload, {
+      headers,
+    });
   }
 }

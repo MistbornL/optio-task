@@ -16,6 +16,7 @@ export class BannerListComponent implements OnInit {
   totalItems: number = 0;
   sortBy: string = '';
   filterText: string = '';
+  // loading:boolean = false
   sortItemsArray = sortItems;
 
   @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;

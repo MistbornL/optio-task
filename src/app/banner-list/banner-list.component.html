@@ -10,7 +10,7 @@
         *ngFor="let item of sortItemsArray"
         (click)="clickHandle(item.accessor)"
       >
-        <a href="{{ item.accessor }}">{{ item.text }}</a>
+        {{ item.text }}
       </li>
     </ul>
   </div>
@@ -56,6 +56,7 @@
     </mat-card>
   </div>
 
+  <!-- Pagination -->
   <div class="pagination-container">
     <mat-paginator
       [length]="banners.total"
@@ -64,4 +65,7 @@
       (page)="fetchBanners($event)"
     />
   </div>
+
+  <!-- Form -->
+  <!-- <app-banner-edit /> -->
 </div>

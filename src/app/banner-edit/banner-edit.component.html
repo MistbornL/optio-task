@@ -1,0 +1,57 @@
+<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+  <!-- ... Your existing form controls ... -->
+
+  <div class="form-group">
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" id="name" formControlName="name" />
+    </div>
+
+    <!-- Other form fields for channelId, language, zoneId, priority, etc. -->
+
+    <!-- Start Date -->
+    <div class="form-group">
+      <label for="startDate">Start Date:</label>
+      <input type="date" id="startDate" formControlName="startDate" />
+    </div>
+
+    <!-- End Date -->
+    <div class="form-group">
+      <label for="endDate">End Date:</label>
+      <input type="date" id="endDate" formControlName="endDate" />
+    </div>
+
+    <!-- Active (Checkbox) -->
+    <div class="form-group">
+      <label for="active">Active:</label>
+      <input type="checkbox" id="active" formControlName="active" />
+    </div>
+
+    <!-- Selected Labels -->
+    <label for="selectedLabels">Selected Labels:</label>
+    <div class="selected-items">
+      <div *ngFor="let label of editForm.get('labels')?.value; let i = index">
+        <div class="selected-item">
+          {{ label }}
+          <button type="button" (click)="removeLabel(i)">X</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Selected Zones -->
+  <div class="form-group">
+    <label for="selectedZones">Selected Zones:</label>
+    <div class="selected-items">
+      <div *ngFor="let zone of editForm.get('zoneId')?.value; let i = index">
+        <div class="selected-item">
+          {{ zone }}
+          <button type="button" (click)="removeZone(i)">X</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="!editForm.valid">Submit</button>
+</form>
