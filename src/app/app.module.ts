@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { BannerEditComponent } from './banner-edit/banner-edit.component';
 import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   declarations: [AppComponent, BannerListComponent, BannerEditComponent],
   imports: [

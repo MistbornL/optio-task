@@ -1,57 +1,111 @@
-<form [formGroup]="editForm" (ngSubmit)="onSubmit()">
-  <!-- ... Your existing form controls ... -->
-
-  <div class="form-group">
+<form
+  [formGroup]="editForm"
+  (ngSubmit)="onSubmit()"
+  class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+>
+  <div class="mb-4">
     <!-- Name -->
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" id="name" formControlName="name" />
+    <div class="mb-4">
+      <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
+        >Name:</label
+      >
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
     </div>
 
     <!-- Other form fields for channelId, language, zoneId, priority, etc. -->
 
     <!-- Start Date -->
-    <div class="form-group">
-      <label for="startDate">Start Date:</label>
-      <input type="date" id="startDate" formControlName="startDate" />
+    <div class="mb-4">
+      <label for="startDate" class="block text-gray-700 text-sm font-bold mb-2"
+        >Start Date:</label
+      >
+      <input
+        type="date"
+        id="startDate"
+        formControlName="startDate"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
     </div>
 
     <!-- End Date -->
-    <div class="form-group">
-      <label for="endDate">End Date:</label>
-      <input type="date" id="endDate" formControlName="endDate" />
+    <div class="mb-4">
+      <label for="endDate" class="block text-gray-700 text-sm font-bold mb-2"
+        >End Date:</label
+      >
+      <input
+        type="date"
+        id="endDate"
+        formControlName="endDate"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
     </div>
 
     <!-- Active (Checkbox) -->
-    <div class="form-group">
-      <label for="active">Active:</label>
-      <input type="checkbox" id="active" formControlName="active" />
+    <div class="mb-4">
+      <label for="active" class="block text-gray-700 text-sm font-bold mb-2"
+        >Active:</label
+      >
+      <input
+        type="checkbox"
+        id="active"
+        formControlName="active"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
     </div>
 
     <!-- Selected Labels -->
-    <label for="selectedLabels">Selected Labels:</label>
+    <label
+      for="selectedLabels"
+      class="block text-gray-700 text-sm font-bold mb-2"
+      >Selected Labels:</label
+    >
     <div class="selected-items">
-      <div *ngFor="let label of editForm.get('labels')?.value; let i = index">
-        <div class="selected-item">
-          {{ label }}
-          <button type="button" (click)="removeLabel(i)">X</button>
-        </div>
+      <div
+        *ngFor="let label of editForm.get('labels')?.value; let i = index"
+        class="selected-item bg-gray-200 border border-gray-300 rounded py-2 px-4 mb-2"
+      >
+        {{ label }}
+        <button
+          type="button"
+          (click)="removeLabel(i)"
+          class="ml-2 text-red-600"
+        >
+          &times;
+        </button>
       </div>
     </div>
   </div>
 
   <!-- Selected Zones -->
-  <div class="form-group">
-    <label for="selectedZones">Selected Zones:</label>
+  <div class="mb-4">
+    <label
+      for="selectedZones"
+      class="block text-gray-700 text-sm font-bold mb-2"
+      >Selected Zones:</label
+    >
     <div class="selected-items">
-      <div *ngFor="let zone of editForm.get('zoneId')?.value; let i = index">
-        <div class="selected-item">
-          {{ zone }}
-          <button type="button" (click)="removeZone(i)">X</button>
-        </div>
+      <div
+        *ngFor="let zone of editForm.get('zoneId')?.value; let i = index"
+        class="selected-item bg-gray-200 border border-gray-300 rounded py-2 px-4 mb-2"
+      >
+        {{ zone }}
+        <button type="button" (click)="removeZone(i)" class="ml-2 text-red-600">
+          &times;
+        </button>
       </div>
     </div>
   </div>
 
-  <button type="submit" [disabled]="!editForm.valid">Submit</button>
+  <button
+    type="submit"
+    [disabled]="!editForm.valid"
+    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+  >
+    Submit
+  </button>
 </form>

@@ -16,7 +16,7 @@ export class BannerListComponent implements OnInit {
   totalItems: number = 0;
   sortBy: string = '';
   filterText: string = '';
-  // loading:boolean = false
+  selectedBanner: Banner | undefined;
   sortItemsArray = sortItems;
 
   @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;
@@ -59,5 +59,9 @@ export class BannerListComponent implements OnInit {
   clickHandle(accessor: string): void {
     this.sortBy = accessor;
     this.fetchBanners();
+  }
+
+  selectBanner(banner: Banner) {
+    this.selectedBanner = banner;
   }
 }
