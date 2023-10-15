@@ -11,16 +11,15 @@ import { Options } from '../models/options.model';
 export class BannerEditComponent {
   editForm = this.fb.group({
     name: [null, Validators.required],
-    channelId: [null, Validators.required],
-    language: [null, Validators.required],
     zoneId: this.fb.array([]),
-    priority: [0, Validators.required],
     fileId: [null],
     url: [null],
     startDate: [null, Validators.required],
     endDate: [null],
     active: [true],
     labels: this.fb.array([]),
+    label: [null, Validators.required],
+    zone: [null, Validators.required],
   });
   labelOptions: Options[] = [];
   zoneOptions: Options[] = [];
@@ -39,9 +38,9 @@ export class BannerEditComponent {
     this.apiService.findOptions(optionType).subscribe((options) => {
       if (formArrayName === 'labels') {
         this.labelOptions = options.data.entities;
+      } else if (formArrayName === 'zoneId') {
+        this.zoneOptions = options.data.entities;
       }
-      this.zoneOptions = options.data.entities;
-      console.log(this.zoneOptions);
     });
   }
 
@@ -50,13 +49,31 @@ export class BannerEditComponent {
     this.fetchItems(1700, this.zoneOptions, 'zoneId');
   }
 
-  removeLabel(index: number) {
+  addLabel() {
     const labelsArray = this.editForm.get('labels') as FormArray;
-    labelsArray.removeAt(index);
+    const selectedLabel = this.editForm.get('label')?.value;
+    labelsArray.push(this.fb.control(selectedLabel));
   }
 
-  removeZone(index: number) {
-    const labelsArray = this.editForm.get('zoneId') as FormArray;
-    labelsArray.removeAt(index);
+  addZOneId() {
+    const zoneArray = this.editForm.get('zoneId') as FormArray;
+    const selectedZone = this.editForm.get('zone')?.value;
+    zoneArray.push(this.fb.control(selectedZone));
+  }
+
+  removeZone(zone: any) {
+    const zoneArray = this.editForm.get('zoneId') as FormArray;
+    const index = zoneArray.value.findIndex((item: string) => item === zone);
+    if (index !== -1) {
+      zoneArray.removeAt(index);
+    }
+  }
+
+  removeLabel(label: any) {
+    const labelsArray = this.editForm.get('labels') as FormArray;
+    const index = labelsArray.value.findIndex((item: string) => item === label);
+    if (index !== -1) {
+      labelsArray.removeAt(index);
+    }
   }
 }
