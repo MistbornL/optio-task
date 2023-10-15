@@ -65,6 +65,7 @@ export class BannerEditComponent implements OnInit, OnChanges {
       console.log(this.editForm.value);
     }
   }
+
   private updateFormValues() {
     const selectedBanner = this.selectedBanner;
     const labelsArray = this.editForm.get('labels') as FormArray;
@@ -72,6 +73,8 @@ export class BannerEditComponent implements OnInit, OnChanges {
     selectedBanner.labels.forEach((label: string) => {
       labelsArray.push(this.fb.control(label));
     });
+    const startDate: any = this.formatDate(selectedBanner.startDate);
+    const endDate: any = this.formatDate(selectedBanner.endDate);
 
     this.editForm.patchValue({
       id: selectedBanner?.id,
@@ -79,12 +82,21 @@ export class BannerEditComponent implements OnInit, OnChanges {
       fileId: selectedBanner?.fileId,
       url: selectedBanner?.url,
       zoneId: selectedBanner?.zoneId,
-      startDate: selectedBanner?.startDate,
-      endDate: selectedBanner?.endDate,
+      startDate: startDate,
+      endDate: endDate,
       active: selectedBanner?.active,
       label: null, // Add any other form fields here
     });
   }
+
+  private formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   addLabel() {
     const labelsArray = this.editForm.get('labels') as FormArray;
     const selectedLabel = this.editForm.get('label')?.value;
