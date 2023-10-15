@@ -46,7 +46,7 @@
     </div>
 
     <!-- Active (Checkbox) -->
-    <div class="mb-4">
+    <div class="mb-4 flex items-center gap-4">
       <label for="active" class="block text-gray-700 text-sm font-bold mb-2"
         >Active:</label
       >
@@ -54,7 +54,7 @@
         type="checkbox"
         id="active"
         formControlName="active"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        class="rounded-md w-6 h-6"
       />
     </div>
 
@@ -62,49 +62,45 @@
     <label
       for="selectedLabels"
       class="block text-gray-700 text-sm font-bold mb-2"
-      >Selected Labels:</label
     >
-    <div class="selected-items">
-      <div
-        *ngFor="let label of editForm.get('labels')?.value; let i = index"
-        class="selected-item bg-gray-200 border border-gray-300 rounded py-2 px-4 mb-2"
-      >
-        {{ label }}
-        <button
-          type="button"
-          (click)="removeLabel(i)"
-          class="ml-2 text-red-600"
-        >
-          &times;
-        </button>
-      </div>
-    </div>
+      Selected Labels:
+    </label>
+    <select
+      id="labels"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      formControlName="labels"
+    >
+      <option selected disabled>Choose a label</option>
+      <option *ngFor="let label of labelOptions" [value]="label.key">
+        {{ label.name }}
+      </option>
+    </select>
   </div>
 
   <!-- Selected Zones -->
-  <div class="mb-4">
-    <label
-      for="selectedZones"
-      class="block text-gray-700 text-sm font-bold mb-2"
-      >Selected Zones:</label
-    >
-    <div class="selected-items">
-      <div
-        *ngFor="let zone of editForm.get('zoneId')?.value; let i = index"
-        class="selected-item bg-gray-200 border border-gray-300 rounded py-2 px-4 mb-2"
-      >
-        {{ zone }}
-        <button type="button" (click)="removeZone(i)" class="ml-2 text-red-600">
-          &times;
-        </button>
-      </div>
-    </div>
-  </div>
+
+  <!-- Selected Labels -->
+  <label
+    for="selectedLabels"
+    class="block text-gray-700 text-sm font-bold mb-2"
+  >
+    Selected Labels:
+  </label>
+  <select
+    id="labels"
+    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+    formControlName="labels"
+  >
+    <option selected disabled>Choose a label</option>
+    <option *ngFor="let label of zoneOptions" [value]="label.key">
+      {{ label.name }}
+    </option>
+  </select>
 
   <button
     type="submit"
     [disabled]="!editForm.valid"
-    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
   >
     Submit
   </button>

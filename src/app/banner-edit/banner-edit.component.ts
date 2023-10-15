@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ApiService } from '../api.service.spec';
+import { Options } from '../models/options.model';
 
 @Component({
   selector: 'app-banner-edit',
@@ -21,8 +22,8 @@ export class BannerEditComponent {
     active: [true],
     labels: this.fb.array([]),
   });
-  labelOptions: string[] = [];
-  zoneOptions: string[] = [];
+  labelOptions: Options[] = [];
+  zoneOptions: Options[] = [];
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {}
 
@@ -34,9 +35,13 @@ export class BannerEditComponent {
     }
   }
 
-  fetchItems(optionType: number, items: string[], formArrayName: string) {
+  fetchItems(optionType: number, items: any[], formArrayName: string) {
     this.apiService.findOptions(optionType).subscribe((options) => {
-      this.editForm.get(formArrayName)?.setValue(options);
+      if (formArrayName === 'labels') {
+        this.labelOptions = options.data.entities;
+      }
+      this.zoneOptions = options.data.entities;
+      console.log(this.zoneOptions);
     });
   }
 
