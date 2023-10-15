@@ -4,7 +4,7 @@
   >
     <!-- Drawer content here -->
 
-    <app-banner-edit />
+    <app-banner-edit [sharedId]="sharedId" [selectedBanner]="selectedBanner" />
   </div>
 
   <div class="flex-1 flex flex-col">
@@ -41,8 +41,15 @@
       <!-- Render Banners -->
       <div class="p-4" *ngFor="let banner of banners.entities">
         <div
-          class="max-w-md w-full rounded overflow-hidden shadow-lg mx-auto mb-4"
+          class="max-w-md w-full rounded overflow-hidden shadow-lg mx-auto mb-4 relative"
         >
+          <div class="">
+            <span
+              (click)="handleBannerSave(banner)"
+              class="px-2 py-1 cursor-pointer bg-slate-700 text-white top-2 right-2 absolute rounded-md"
+              >Edit</span
+            >
+          </div>
           <img
             src="{{ banner.url }}"
             alt="{{ banner.name }}"

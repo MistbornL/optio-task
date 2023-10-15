@@ -1,5 +1,5 @@
 import { ElementRef, ViewChild, Component, OnInit } from '@angular/core';
-import { Banner } from '../models/banner.model';
+import { Banner, Entities } from '../models/banner.model';
 import { ApiService } from '../api.service.spec';
 import { PageEvent } from '@angular/material/paginator';
 import { sortItems } from '../cconst';
@@ -16,9 +16,9 @@ export class BannerListComponent implements OnInit {
   totalItems: number = 0;
   sortBy: string = '';
   filterText: string = '';
-  selectedBanner: Banner | undefined;
   sortItemsArray = sortItems;
-
+  sharedId: string = '';
+  selectedBanner: Entities | undefined;
   @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;
   constructor(private apiService: ApiService) {}
 
@@ -61,7 +61,8 @@ export class BannerListComponent implements OnInit {
     this.fetchBanners();
   }
 
-  selectBanner(banner: Banner) {
+  handleBannerSave(banner: Entities) {
     this.selectedBanner = banner;
+    return (this.sharedId = banner.id);
   }
 }

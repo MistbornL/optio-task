@@ -1,17 +1,25 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ApiService } from '../api.service.spec';
 import { Options } from '../models/options.model';
+import { Entities } from '../models/banner.model';
 
 @Component({
   selector: 'app-banner-edit',
   templateUrl: './banner-edit.component.html',
   styleUrls: ['./banner-edit.component.scss'],
 })
-export class BannerEditComponent {
+export class BannerEditComponent implements OnInit, OnChanges {
   editForm = this.fb.group({
+    id: [null],
     name: [null, Validators.required],
-    zoneId: this.fb.array([]),
+    zoneId: [null],
     fileId: [null],
     url: [null],
     startDate: [null, Validators.required],
@@ -19,10 +27,12 @@ export class BannerEditComponent {
     active: [true],
     labels: this.fb.array([]),
     label: [null, Validators.required],
-    zone: [null, Validators.required],
   });
   labelOptions: Options[] = [];
   zoneOptions: Options[] = [];
+
+  @Input() sharedId: string | undefined;
+  @Input() selectedBanner: any;
 
   constructor(private fb: FormBuilder, private apiService: ApiService) {}
 
@@ -49,24 +59,36 @@ export class BannerEditComponent {
     this.fetchItems(1700, this.zoneOptions, 'zoneId');
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['sharedId'] && changes['sharedId'].currentValue) {
+      this.updateFormValues();
+      console.log(this.editForm.value);
+    }
+  }
+  private updateFormValues() {
+    const selectedBanner = this.selectedBanner;
+    const labelsArray = this.editForm.get('labels') as FormArray;
+    console.log(selectedBanner);
+    selectedBanner.labels.forEach((label: string) => {
+      labelsArray.push(this.fb.control(label));
+    });
+
+    this.editForm.patchValue({
+      id: selectedBanner?.id,
+      name: selectedBanner?.name,
+      fileId: selectedBanner?.fileId,
+      url: selectedBanner?.url,
+      zoneId: selectedBanner?.zoneId,
+      startDate: selectedBanner?.startDate,
+      endDate: selectedBanner?.endDate,
+      active: selectedBanner?.active,
+      label: null, // Add any other form fields here
+    });
+  }
   addLabel() {
     const labelsArray = this.editForm.get('labels') as FormArray;
     const selectedLabel = this.editForm.get('label')?.value;
     labelsArray.push(this.fb.control(selectedLabel));
-  }
-
-  addZOneId() {
-    const zoneArray = this.editForm.get('zoneId') as FormArray;
-    const selectedZone = this.editForm.get('zone')?.value;
-    zoneArray.push(this.fb.control(selectedZone));
-  }
-
-  removeZone(zone: any) {
-    const zoneArray = this.editForm.get('zoneId') as FormArray;
-    const index = zoneArray.value.findIndex((item: string) => item === zone);
-    if (index !== -1) {
-      zoneArray.removeAt(index);
-    }
   }
 
   removeLabel(label: any) {

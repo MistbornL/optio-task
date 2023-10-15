@@ -144,27 +144,12 @@
         {{ zone.name }}
       </option>
     </select>
-    <button
-      (click)="addZOneId()"
-      class="px-4 py-2 bg-blue-600 cursor-pointer mt-2 text-white"
-    >
-      Add ZoneID
-    </button>
   </div>
 
   <div class="selected-labels mb-4">
     <ul class="selected-label">
-      <li
-        class="px-2 py-1 bg-slate-800 text-white rounded-md mb-2 relative"
-        *ngFor="let zone of editForm.get('zoneId')?.value"
-      >
-        <span
-          (click)="removeZone(zone)"
-          class="absolute top-1 right-1 cursor-pointer"
-        >
-          X</span
-        >
-        {{ zone }}
+      <li class="px-2 py-1 bg-slate-800 text-white rounded-md mb-2 relative">
+        {{ editForm.get("zoneId")?.value }}
       </li>
     </ul>
   </div>
