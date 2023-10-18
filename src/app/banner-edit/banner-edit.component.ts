@@ -8,7 +8,6 @@ import {
 import { FormBuilder, Validators, FormArray } from '@angular/forms';
 import { ApiService } from '../api.service.spec';
 import { Options } from '../models/options.model';
-import { Entities } from '../models/banner.model';
 
 @Component({
   selector: 'app-banner-edit',
@@ -26,10 +25,14 @@ export class BannerEditComponent implements OnInit, OnChanges {
     endDate: [null],
     active: [true],
     labels: this.fb.array([]),
-    label: [null, Validators.required],
+    channelId: [''],
+    language: '',
+    priority: '',
   });
   labelOptions: Options[] = [];
   zoneOptions: Options[] = [];
+  img: any;
+  label: string = '';
 
   @Input() sharedId: string | undefined;
   @Input() selectedBanner: any;
@@ -38,9 +41,10 @@ export class BannerEditComponent implements OnInit, OnChanges {
 
   onSubmit() {
     if (this.editForm.valid) {
-      const formData = this.editForm.value;
-      // Send formData to your service for further processing
-      console.log(formData);
+      this.upload(this.img);
+      this.apiService.submitHandler(this.editForm.value).subscribe((data) => {
+        console.log('Successful submission');
+      });
     }
   }
 
@@ -62,14 +66,12 @@ export class BannerEditComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['sharedId'] && changes['sharedId'].currentValue) {
       this.updateFormValues();
-      console.log(this.editForm.value);
     }
   }
 
   private updateFormValues() {
     const selectedBanner = this.selectedBanner;
     const labelsArray = this.editForm.get('labels') as FormArray;
-    console.log(selectedBanner);
     selectedBanner.labels.forEach((label: string) => {
       labelsArray.push(this.fb.control(label));
     });
@@ -79,13 +81,15 @@ export class BannerEditComponent implements OnInit, OnChanges {
     this.editForm.patchValue({
       id: selectedBanner?.id,
       name: selectedBanner?.name,
+      channelId: 'internet-bank',
       fileId: selectedBanner?.fileId,
       url: selectedBanner?.url,
       zoneId: selectedBanner?.zoneId,
       startDate: startDate,
       endDate: endDate,
       active: selectedBanner?.active,
-      label: null, // Add any other form fields here
+      language: 'ka',
+      priority: '0',
     });
   }
 
@@ -99,8 +103,7 @@ export class BannerEditComponent implements OnInit, OnChanges {
 
   addLabel() {
     const labelsArray = this.editForm.get('labels') as FormArray;
-    const selectedLabel = this.editForm.get('label')?.value;
-    labelsArray.push(this.fb.control(selectedLabel));
+    labelsArray.push(this.fb.control(this.label));
   }
 
   removeLabel(label: any) {
@@ -108,6 +111,22 @@ export class BannerEditComponent implements OnInit, OnChanges {
     const index = labelsArray.value.findIndex((item: string) => item === label);
     if (index !== -1) {
       labelsArray.removeAt(index);
+    }
+  }
+
+  upload(image: File) {
+    const formData = new FormData();
+    formData.append('blob', image);
+    this.apiService.uploadImg(formData).subscribe((data) => {
+      this.editForm.controls['fileId'].setValue(data.data.id);
+      console.log('upload successful');
+    });
+  }
+
+  onFileSelected(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files && target.files.length > 0) {
+      this.img = target.files[0];
     }
   }
 }

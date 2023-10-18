@@ -50,11 +50,15 @@
               >Edit</span
             >
           </div>
-          <img
-            src="{{ banner.url }}"
-            alt="{{ banner.name }}"
-            class="w-full h-auto rounded-md"
-          />
+          <div *ngFor="let blob of blobs">
+            <div *ngIf="banner.fileId === blob.id" class="w-full">
+              <img
+                [src]="getImageUrl(blob.blob)"
+                alt="Image"
+                class="bg-no-repeat object-cover h-44 w-full"
+              />
+            </div>
+          </div>
           <div class="p-4">
             <h2 class="font-bold text-xl">{{ banner.name }}</h2>
             <p class="text-sm text-gray-600">

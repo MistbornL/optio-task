@@ -1,9 +1,23 @@
 <form
   [formGroup]="editForm"
+  enctype="multipart/form-data"
   (ngSubmit)="onSubmit()"
   class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
 >
   <div class="mb-4">
+    <!-- Name -->
+    <div class="mb-4">
+      <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
+        >ID:</label
+      >
+      <input
+        type="text"
+        id="name"
+        formControlName="id"
+        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+      />
+    </div>
+
     <!-- Name -->
     <div class="mb-4">
       <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
@@ -30,14 +44,16 @@
       />
     </div>
 
+    <!-- upload -->
     <div class="mb-4">
       <label for="name" class="block text-gray-700 text-sm font-bold mb-2"
         >Upload Img</label
       >
       <input
-        type="text"
+        type="file"
         id="name"
-        formControlName="url"
+        formControlName="img"
+        (change)="onFileSelected($event)"
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
       />
     </div>
@@ -93,16 +109,18 @@
       <select
         id="labels"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        formControlName="label"
+        [(ngModel)]="label"
       >
         <option selected disabled>Choose a label</option>
-        <option *ngFor="let label of labelOptions" [value]="label.key">
-          {{ label.name }}
+        <option *ngFor="let option of labelOptions" [value]="option.name">
+          {{ option.name }}
         </option>
       </select>
+
       <button
         (click)="addLabel()"
-        class="px-4 py-2 bg-blue-600 cursor-pointer mt-2 text-white"
+        class="px-4 py-2 cursor-pointer mt-2 text-black bg-blue-700 rounded-md"
+        type="button"
       >
         Add Label
       </button>
@@ -135,23 +153,15 @@
       Selected Zones:
     </label>
     <select
-      id="labels"
+      id="zones"
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      formControlName="zone"
+      formControlName="zoneId"
     >
       <option selected disabled>Choose a zone</option>
       <option *ngFor="let zone of zoneOptions" [value]="zone.key">
         {{ zone.name }}
       </option>
     </select>
-  </div>
-
-  <div class="selected-labels mb-4">
-    <ul class="selected-label">
-      <li class="px-2 py-1 bg-slate-800 text-white rounded-md mb-2 relative">
-        {{ editForm.get("zoneId")?.value }}
-      </li>
-    </ul>
   </div>
 
   <button

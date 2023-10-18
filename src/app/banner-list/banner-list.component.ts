@@ -3,6 +3,7 @@ import { Banner, Entities } from '../models/banner.model';
 import { ApiService } from '../api.service.spec';
 import { PageEvent } from '@angular/material/paginator';
 import { sortItems } from '../cconst';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-banner-list',
@@ -19,8 +20,13 @@ export class BannerListComponent implements OnInit {
   sortItemsArray = sortItems;
   sharedId: string = '';
   selectedBanner: Entities | undefined;
+  blobs: any = [];
+  imgUrl: any = '';
   @ViewChild('focus', { read: ElementRef }) divInput: ElementRef | null = null;
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    private sanitizer: DomSanitizer
+  ) {}
 
   ngOnInit(): void {
     this.fetchBanners();
@@ -40,11 +46,33 @@ export class BannerListComponent implements OnInit {
         // Handle the API response and update this.banners as needed
         this.banners = data.data;
         this.totalItems = data.data.total;
+        this.banners.entities.forEach((element) => {
+          this.fetchImgs(element.fileId);
+        });
 
         this.calculatePageSize();
       });
-
     this.scrollUp();
+  }
+
+  fetchImgs(id: string | undefined) {
+    this.apiService.downloadImg(id ?? '').subscribe((data) => {
+      // Check if the blob already exists in the blobs array
+      const exists = this.blobs.some(
+        (blobObj: { id: string; blob: Blob }) => blobObj.id === id
+      );
+
+      if (!exists) {
+        const blobObj = { id, blob: data.body };
+        this.blobs.push(blobObj);
+        console.log(this.blobs);
+      }
+    });
+  }
+
+  getImageUrl(blob: Blob): SafeUrl {
+    const objectURL = URL.createObjectURL(blob);
+    return this.sanitizer.bypassSecurityTrustUrl(objectURL);
   }
 
   scrollUp(): void {
@@ -64,5 +92,20 @@ export class BannerListComponent implements OnInit {
   handleBannerSave(banner: Entities) {
     this.selectedBanner = banner;
     return (this.sharedId = banner.id);
+  }
+
+  createImageFromBlob(blob: Blob) {
+    const reader = new FileReader();
+    reader.addEventListener(
+      'load',
+      () => {
+        this.imgUrl = reader.result as string;
+      },
+      false
+    );
+
+    if (blob) {
+      reader.readAsDataURL(blob);
+    }
   }
 }

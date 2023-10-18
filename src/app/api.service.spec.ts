@@ -62,4 +62,36 @@ export class ApiService {
       headers,
     });
   }
+
+  uploadImg(imgForm: any): Observable<any> {
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${this.authToken}`,
+    });
+
+    return this.http.post(`${this.apiUrl}/blob/upload`, imgForm, {
+      headers,
+    });
+  }
+
+  submitHandler(payload: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.authToken}`,
+    });
+    return this.http.post(`${this.apiUrl}/banners/save`, payload, {
+      headers,
+    });
+  }
+
+  downloadImg(id: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.authToken}`,
+    });
+    return this.http.get(`${this.apiUrl}/blob/${id}`, {
+      headers,
+      observe: 'response',
+      responseType: 'blob' as 'json',
+    });
+  }
 }
