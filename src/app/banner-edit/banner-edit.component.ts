@@ -33,6 +33,7 @@ export class BannerEditComponent implements OnInit, OnChanges {
   zoneOptions: Options[] = [];
   img: any;
   label: string = '';
+  loading: boolean = false;
 
   @Input() sharedId: string | undefined;
   @Input() selectedBanner: any;
@@ -42,9 +43,6 @@ export class BannerEditComponent implements OnInit, OnChanges {
   onSubmit() {
     if (this.editForm.valid) {
       this.upload(this.img);
-      this.apiService.submitHandler(this.editForm.value).subscribe((data) => {
-        console.log('Successful submission');
-      });
     }
   }
 
@@ -66,6 +64,7 @@ export class BannerEditComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['sharedId'] && changes['sharedId'].currentValue) {
       this.updateFormValues();
+      console.log(this.editForm.value);
     }
   }
 
@@ -91,6 +90,7 @@ export class BannerEditComponent implements OnInit, OnChanges {
       language: 'ka',
       priority: '0',
     });
+    console.log(this.editForm);
   }
 
   private formatDate(dateString: string): string {
@@ -117,9 +117,18 @@ export class BannerEditComponent implements OnInit, OnChanges {
   upload(image: File) {
     const formData = new FormData();
     formData.append('blob', image);
+    this.loading = true;
+
     this.apiService.uploadImg(formData).subscribe((data) => {
       this.editForm.controls['fileId'].setValue(data.data.id);
       console.log('upload successful');
+      this.loading = false;
+
+      if (!this.loading) {
+        this.apiService.submitHandler(this.editForm.value).subscribe((data) => {
+          alert('Success!!!');
+        });
+      }
     });
   }
 
