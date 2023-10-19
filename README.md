@@ -21,7 +21,9 @@ Access the application at the designated URL.
 View the list of existing banners and their details.
 Create new banners or edit existing ones using the provided forms.
 Upload images for the banners, ensuring that the upload process is completed before submitting the form.
+
 Contributors
 lashaloria3@gmail.com
+
 License
 This project is licensed under the MIT License - see the LICENSE.md file for details.
