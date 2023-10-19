@@ -104,6 +104,7 @@ export class BannerEditComponent implements OnInit, OnChanges {
   addLabel() {
     const labelsArray = this.editForm.get('labels') as FormArray;
     labelsArray.push(this.fb.control(this.label));
+    console.log(labelsArray.value);
   }
 
   removeLabel(label: any) {
