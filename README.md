@@ -1,27 +1,27 @@
-# OptioTask
+Banner Management Application
+This project is an Angular application for managing banners. It allows users to create, edit, and upload banners with associated images. The application integrates with a backend API for data storage and retrieval.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.0.
+Setup
+Clone the repository.
+Install the necessary dependencies using the command npm install.
+Run the development server with ng serve.
+Functionality
+Banner List
+The BannerListComponent displays a list of banners retrieved from the backend API. It supports pagination and sorting of banners based on different parameters.
 
-## Development server
+Banner Editing
+The BannerEditComponent enables users to create and edit banners. It allows users to upload images and associate them with the respective banners. The form submission process is synchronized with the image upload process to ensure data consistency.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Key Components
+BannerListComponent: Manages the display and interaction with the list of banners.
+BannerEditComponent: Handles the creation and editing of individual banners.
+ApiService: Interacts with the backend API to perform CRUD operations for banners and image uploads.
+How to Use
+Access the application at the designated URL.
+View the list of existing banners and their details.
+Create new banners or edit existing ones using the provided forms.
+Upload images for the banners, ensuring that the upload process is completed before submitting the form.
+Contributors
+lashaloria3@gmail.com
+License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
