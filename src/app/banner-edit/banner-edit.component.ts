@@ -114,22 +114,30 @@ export class BannerEditComponent implements OnInit, OnChanges {
     }
   }
 
-  upload(image: File) {
-    const formData = new FormData();
-    formData.append('blob', image);
-    this.loading = true;
+  upload(image?: File) {
+    if (image) {
+      const formData = new FormData();
+      formData.append('blob', image);
+      this.loading = true;
 
-    this.apiService.uploadImg(formData).subscribe((data) => {
-      this.editForm.controls['fileId'].setValue(data.data.id);
-      console.log('upload successful');
-      this.loading = false;
+      this.apiService.uploadImg(formData).subscribe((data) => {
+        this.editForm.controls['fileId'].setValue(data.data.id);
+        console.log('upload successful');
+        this.loading = false;
 
-      if (!this.loading) {
-        this.apiService.submitHandler(this.editForm.value).subscribe((data) => {
-          alert('Success!!!');
-        });
-      }
-    });
+        if (!this.loading) {
+          this.apiService
+            .submitHandler(this.editForm.value)
+            .subscribe((data) => {
+              alert('Success!!!');
+            });
+        }
+      });
+    } else {
+      this.apiService.submitHandler(this.editForm.value).subscribe((data) => {
+        alert('Success!!!');
+      });
+    }
   }
 
   onFileSelected(event: Event) {

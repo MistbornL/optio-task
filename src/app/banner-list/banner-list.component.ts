@@ -65,7 +65,6 @@ export class BannerListComponent implements OnInit {
       if (!exists) {
         const blobObj = { id, blob: data.body };
         this.blobs.push(blobObj);
-        console.log(this.blobs);
       }
     });
   }
@@ -92,20 +91,5 @@ export class BannerListComponent implements OnInit {
   handleBannerSave(banner: Entities) {
     this.selectedBanner = banner;
     return (this.sharedId = banner.id);
-  }
-
-  createImageFromBlob(blob: Blob) {
-    const reader = new FileReader();
-    reader.addEventListener(
-      'load',
-      () => {
-        this.imgUrl = reader.result as string;
-      },
-      false
-    );
-
-    if (blob) {
-      reader.readAsDataURL(blob);
-    }
   }
 }
