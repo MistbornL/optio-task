@@ -49,6 +49,7 @@ export class BannerListComponent implements OnInit {
         this.banners.entities.forEach((element) => {
           this.fetchImgs(element.fileId);
         });
+        console.log(this.banners);
 
         this.calculatePageSize();
       });
