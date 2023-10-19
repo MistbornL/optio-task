@@ -12,7 +12,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 })
 export class BannerListComponent implements OnInit {
   banners: Banner = { total: 0, entities: [] };
-  pageSize: number = 10;
+  pageSize: number = 20;
   pageSizeOptions: number[] = [5, 10, 20, 50];
   totalItems: number = 0;
   sortBy: string = '';
